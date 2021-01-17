@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="renderer" content="webkit" />
+    <!-- <meta content=”width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;” name=”viewport” /> -->
+    <!-- <meta content=”yes” name=”apple-mobile-web-app-capable” />
+    <meta content=”black” name=”apple-mobile-web-app-status-bar-style” />
+    <meta content=”telephone=no,email=no” name=”format-detection” /> -->
+    <title>App Download</title>
+    <script src="jquery-2.2.0.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://static.zhihu.com/static/revved/-/css/pages/unlogin-index/main.bef9ecee.css"> -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="dns-prefetch" href="download.encompass8.com"/>
+
+    <style type='text/css'>
+        body{background:#f7fafc;font-family:'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',Arial,sans-serif;color:#555;text-align:left;}
+        .title{margin:30px 0;font-weight:800;font-size:36px;line-height:1;text-align:center;}
+        .index-header .subtitle{margin:30px 0;font-weight:400;font-size:18px;line-height:1;text-align:center;}
+        .betaURL{margin:30px 0;font-weight:400;font-size:18px;line-height:2; text-align:left;}
+        input[type="radio"]{padding:1em .8em;width:100%;box-sizing:border-box;font:11px BlinkMacSystemFont;text-align: start;}
+        input{margin:0;font-family:inherit;font-size:100%;margin-top:20px;margin-bottom:20px;}
+        input[type="radio"] {width:auto; margin:10px 10px 10px 10px;};
+        label{text-align:left;};
+        .wrapper{width:80%;margin-right: auto; margin-left: auto;}
+        .inputButton {background:#5bb8ff;line-height:41px;color:#fff;width:100%;font-size:15px;text-align:center;text-shadow:0 1px 1px rgba(0,0,0,.2);cursor:pointer;}
+    </style>
+</head>
+<body>
+    <div class="index-header">
+        <h1 class="title">App</h1>
+        <h2 class="subtitle">Download The App You needed </h2>
+        <h2 class="subtitle">https://download.encompass8.com/</h2>
+        <h3 class="betaURL">
+            <li><a href='beta/iOS_14_Beta_Profile.mobileconfig'>iOS_14_Beta_Profile</a> md5=90dbb4949eb798220bdc86e22d365477</li>
+            <li><a href='beta/iOS_iPadOS_14_Beta_Profile.mobileconfig'>iOS_iPadOS_14_Beta_Profile</a> md5=f529650c73bd44463a5715ee984fa77c</li>
+            <li><a href='beta/watchOS_7_Beta_Profilemobileconfig.mobileconfig'>watchOS_7_Beta_Profilemobileconfig</a> md5=0485f2cab13c6cb494659b61456629cb</li>
+            <li><a href='beta/tvOS_14_Beta_Profile.mobileconfig'>tvOS_14_Beta_Profile</a> md5=7fccb2024073a116e8a0dfd524cb867c</li>
+            <li><a href='beta/macOSDeveloperBetaAccessUtility.dmg'>macOSDeveloperBetaAccessUtility.dmg</a> md5=edb9237ab1a50d2b64995efff04e82a3</li>
+        </h3>
+    </div>
+    <label></label>
+    <div class="wrapper">
+            <label><input type='radio' name='downloadType' checked=checked value="1" />Encompass iOS</label></br>
+            <!-- <label><input type='radio' name='downloadType' value="2" />Encompass iOS Simulator</label></br> -->
+            <label><input type='radio' name='downloadType' value="3" />Encompass Android</label></br>
+            <label><input type='radio' name='downloadType' value="4" />UGM iOS</label></br>
+            <label><input type='radio' name='downloadType' value="5" />UGM Android</label></br>
+            <label><input type='radio' name='downloadType' value="11" />DSDLink iOS</label></br>
+            <label><input type='radio' name='downloadType' value="12" />DSDLink Android</label></br>
+
+            <input required="" id="textInfo"  type="text" placeholder="" value='' /></td>
+            <br />
+            <label name='link' id='link'>Link:</label><br /><br />
+                        <label name='actualLink' id='actualLink'></label><br /><br />
+            <button class="inputButton"  id="openButton" type="button" value="Generate App Link" >Generate Links</button>
+    </div>
+
+    <script>
+    function getAHTML(link){
+        return `<a href='${link}'>${link}</a>`;
+    }
+    $("input[name='downloadType']").on("change", function(){
+        var radioChecked = $("input[name='downloadType']:checked").val();
+
+        var newDefaultValue = "";
+        switch(radioChecked){
+            case '1':
+                newDefaultValue = getCurrentMonthVersion();
+                break;
+            case '3':
+                newDefaultValue = getCurrentMonthVersion();
+                break;
+            case '4':
+                newDefaultValue = "19.01.01";
+                break;
+            case '5':
+                newDefaultValue = "19.01.01";
+                break;
+            case '11':
+                newDefaultValue = getCurrentMonthVersion();
+                break;
+            case '12':
+                newDefaultValue = getCurrentMonthVersion();
+                break;
+        }
+        $("#textInfo").val(newDefaultValue);
+        $("#textInfo").attr('placeholder',newDefaultValue);
+    });
+
+
+    $("#openButton").on("click", function(){
+        var value = $("#textInfo").val();
+        value = value.replace(/\./g, "");
+        var radioChecked = $("input[name='downloadType']:checked").val();
+
+        var host = "support.encompass8.com";
+        var newHost = "download.encompass8.com";
+
+        var radioPath = "";
+        var limit = 0;
+        var downloadURL = "";
+        var newDownloadURL = "";
+        switch(radioChecked){
+            case '1':
+                newDownloadURL = `itms-services://?action=download-manifest&url=https://${newHost}/EncompassiPhone/Encompass${(value?"_":"")}${value}.plist`;
+                limit = 0;
+                break;
+            case '2':
+                newDownloadURL = `https://${newHost}/EncompassiPhone/Encompass_Dev${(value?"_":"")}${value}.app.zip`;
+                limit = 0;
+                break;
+            case '3':
+                newDownloadURL = `https://${newHost}/EncompassAndroid/EA${(value?"_":"")}${value}.apk`;
+                limit = 0;
+                break;
+            case '4':
+                newDownloadURL = `itms-services://?action=download-manifest&url=https://${newHost}/UGM/UGM${(value?"_":"")}${value}.plist`;
+                limit = 0;
+            break;
+            case '5':
+                newDownloadURL = `https://${newHost}/UGMAndroid/UGM${(value?"_":"")}${value}.apk`;
+                limit = 0;
+            break;
+            case '11':
+                newDownloadURL = `itms-services://?action=download-manifest&url=https://${newHost}/DSDLink/DSDLink${(value?"_":"")}${value}.plist`;
+                limit = 0;
+            break;
+            case '12':
+                newDownloadURL = `https://${newHost}/DSDLinkAndroid/DSDLink${(value?"_":"")}${value}.apk`;
+                limit = 0;
+            break;
+        }
+        if( (value.length == limit || limit == 0) )
+        {
+            $("#link").html(getAHTML(downloadURL));
+            $("#actualLink").html(getAHTML(newDownloadURL));
+        }
+        else{
+            alert(`Version number should be ${limit} number. It is invalid.`);
+        }
+    });
+
+    function getCurrentMonthVersion() {
+        let myDate = new Date();
+        let yearStr = myDate.getFullYear().toString().substr(2, 2);
+        let month = myDate.getMonth() + 1;
+        let monthStr = month < 10 ? `0${month}` : `${month}`;
+        let newVersion = `${yearStr}.${monthStr}.01`;
+        return newVersion;
+    }
+
+    function autoFillVersion() {
+        let newVersion = getCurrentMonthVersion();
+        $("#textInfo").val(newVersion);
+        $("#textInfo").attr('placeholder',newVersion);
+    }
+    autoFillVersion();
+    </script>
+</body>
+
+</html>
